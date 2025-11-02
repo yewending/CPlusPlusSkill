@@ -1,0 +1,35 @@
+std::forward
+
+一、背景：为什么要有 std::forward
+
+在 C++ 中，左值 (lvalue) 和 右值 (rvalue) 表示对象“是否可以被再次引用”。
+
+左值：有名字、可重复引用，如 int a = 10; 中的 a
+
+右值：临时对象、不可再次引用，如 10 或 a + b
+
+当你在模板中写一个函数时，不知道参数是左值还是右值，因此需要一种“保留实参值类别”的机制。
+std::forward 就是干这个的。
+
+二、模板转发问题
+
+假设我们想写一个函数模板，把参数传给另一个函数：
+
+#include <iostream>
+using namespace std;
+
+void process(int& x) { cout << "左值引用版本" << endl; }
+void process(int&& x) { cout << "右值引用版本" << endl; }
+
+template<typename T>
+void wrapper(T&& arg) {
+    process(arg);   // <-- 问题在这里！
+}
+
+int main() {
+    int a = 10;
+    wrapper(a);      // 传左值
+    wrapper(20);     // 传右值
+}
+
+
