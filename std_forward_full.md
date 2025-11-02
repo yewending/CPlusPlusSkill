@@ -1,4 +1,4 @@
-# `std::forward` 完整说明（Markdown 格式）
+# `std::forward`
 
 ## 🌱 一、背景：为什么要有 `std::forward`
 
